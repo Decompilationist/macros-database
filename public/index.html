@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macro VBA</title>
+    <!-- Adicionando Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Estilo para a área de exibição da macro */
+        #macroContent {
+            max-height: 400px; /* Altura máxima da área de exibição */
+            overflow-y: auto; /* Adiciona barra de rolagem vertical se necessário */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
+        <h1 class="text-2xl font-semibold mb-4">Banco de Dados Macros VBA Montana</h1>
+        <form id="authForm" class="space-y-4" autocomplete="off">
+            <div>
+                <label for="username" class="block text-sm font-medium text-gray-700">Macro:</label>
+                <input type="text" id="username" name="username" required
+                    class="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Senha:</label>
+                <input type="password" id="password" name="password" required
+                    class="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            <div>
+                <button type="submit"
+                    class="w-full px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Exibir Macro
+                </button>
+            </div>
+            <!-- Área de exibição da macro dentro da mesma div do formulário -->
+            <div class="mt-4">
+                <pre id="macroContent" class="p-4 bg-gray-200 rounded-md"></pre>
+                <!-- Botão para copiar o conteúdo da macro -->
+                <button id="copyButton"
+                    class="mt-2 px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500">
+                    Copiar Macro
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('authForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('/macro', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Basic ' + btoa(username + ':' + password)
+                }
+            });
+
+            const macroContent = document.getElementById('macroContent');
+            if (response.ok) {
+                const text = await response.text();
+                macroContent.textContent = text;
+            } else {
+                macroContent.textContent = 'Autenticação falhou. Verifique nome da macro e sua senha.';
+            }
+        });
+
+        // Função para copiar o conteúdo da macro
+        document.getElementById('copyButton').addEventListener('click', () => {
+            const macroContent = document.getElementById('macroContent');
+            navigator.clipboard.writeText(macroContent.textContent)
+                .then(() => {
+                    alert('Macro copiada com sucesso!');
+                })
+                .catch(err => {
+                    console.error('Erro ao copiar a macro:', err);
+                });
+        });
+    </script>
+</body>
+</html>
