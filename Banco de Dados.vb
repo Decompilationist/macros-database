@@ -32,8 +32,11 @@ Sub GetMacroFromAPI()
     If http.Status = 200 Then
         response = http.responseText
 
-        ' Inserir a macro VBA no módulo
-        moduleName = "Módulo1" ' Substitua pelo nome do módulo onde deseja inserir a macro
+        ' Criar um novo módulo VBA chamado "Módulo1"
+        moduleName = "Módulo1"
+        CreateNewModule moduleName
+
+        ' Inserir a macro VBA no módulo recém-criado
         startLine = 1
         InsertMacroCode moduleName, response, startLine
 
@@ -50,6 +53,33 @@ Sub GetMacroFromAPI()
 ErrorHandler:
     MsgBox "Erro: " & Err.Description
 End Sub
+
+Sub CreateNewModule(moduleName As String)
+    On Error GoTo ErrorHandler
+
+    Dim vbProj As Object
+    Dim vbComp As Object
+
+    ' Obter o projeto VBA
+    Set vbProj = ThisWorkbook.VBProject
+
+    ' Adicionar um novo módulo VBA
+    Set vbComp = vbProj.VBComponents.Add(1) ' 1 representa um módulo de código
+    vbComp.Name = moduleName
+
+    MsgBox "Novo módulo VBA '" & moduleName & "' criado com sucesso!"
+
+    ' Limpar
+    Set vbComp = Nothing
+    Set vbProj = Nothing
+    Exit Sub
+
+ErrorHandler:
+    MsgBox "Erro ao criar o novo módulo VBA: " & Err.Description
+End Sub
+
+
+
 
 Function Base64Encode(text As String) As String
     Dim arrData() As Byte
@@ -158,4 +188,94 @@ Function ExtractMacroName(macroCode As String) As String
         ExtractMacroName = "MacroDesconhecida"
     End If
 End Function
+
+
+Sub DeleteMacroModule(moduleName As String)
+    On Error GoTo ErrorHandler
+
+    Dim vbProj As Object
+
+    ' Obter o projeto VBA
+    Set vbProj = ThisWorkbook.VBProject
+
+    ' Verificar se o módulo existe
+    If ModuleExists(vbProj, moduleName) Then
+        ' Remover o módulo VBA
+        vbProj.VBComponents.Remove vbProj.VBComponents(moduleName)
+
+        MsgBox "Módulo VBA '" & moduleName & "' removido com sucesso!"
+    Else
+        MsgBox "O módulo VBA '" & moduleName & "' não existe neste projeto."
+    End If
+
+    ' Limpar
+    Set vbProj = Nothing
+    Exit Sub
+
+ErrorHandler:
+    MsgBox "Erro ao excluir o módulo VBA: " & Err.Description
+End Sub
+
+Function ModuleExists(vbProj As Object, moduleName As String) As Boolean
+    Dim vbComp As Object
+    On Error Resume Next
+    Set vbComp = vbProj.VBComponents(moduleName)
+    On Error GoTo 0
+    ModuleExists = Not vbComp Is Nothing
+End Function
+
+Sub DeleteMacroButtonClick()
+    On Error GoTo ErrorHandler
+
+    Dim moduleName As String
+    moduleName = "Módulo1" ' Nome do módulo que deseja excluir
+
+    ' Excluir o módulo VBA
+    DeleteMacroModule moduleName
+
+    ' Excluir todo o conteúdo da planilha, exceto na coluna D até o final
+    DeleteSheetContentExceptColumnD
+
+    Exit Sub
+
+ErrorHandler:
+    MsgBox "Erro: " & Err.Description
+End Sub
+
+Sub DeleteSheetContentExceptColumnD()
+    Dim ws As Worksheet
+    Dim rng As Range
+    Dim cell As Range
+    Dim lastRow As Long
+    Dim lastColumn As Long
+    Dim colD As Range
+    
+Application.ScreenUpdating = False
+Application.Calculation = xlCalculationManual
+Application.EnableEvents = False
+Application.DisplayAlerts = False
+
+    ' Defina a planilha ativa
+    Set ws = ThisWorkbook.ActiveSheet
+
+    ' Encontre a última linha e a última coluna com dados na planilha
+    lastRow = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+    lastColumn = ws.Cells(1, ws.Columns.Count).End(xlToLeft).Column
+
+    ' Defina a coluna D
+    Set colD = ws.Range("D:D")
+
+    ' Loop através de cada célula na planilha
+    For Each cell In ws.Range("A1", ws.Cells(lastRow, lastColumn))
+        ' Verifique se a célula não está na coluna D ou à esquerda dela
+        If Intersect(cell, colD) Is Nothing Then
+            ' Excluir o conteúdo da célula
+            cell.ClearContents
+        End If
+    Next cell
+
+    MsgBox "Conteúdo excluído da planilha, exceto na coluna D até o final!"
+
+End Sub
+
 
