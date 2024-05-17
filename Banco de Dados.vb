@@ -236,11 +236,34 @@ Sub DeleteMacroButtonClick()
     ' Excluir todo o conteúdo da planilha, exceto na coluna D até o final
     DeleteSheetContentExceptColumnD
 
+    ' Excluir o botão de execução de macro
+    DeleteMacroButton
+
     Exit Sub
 
 ErrorHandler:
     MsgBox "Erro: " & Err.Description
 End Sub
+
+Sub DeleteMacroButton()
+    Dim btn As Button
+    Dim ws As Worksheet
+
+    ' Definir a planilha ativa
+    Set ws = ThisWorkbook.ActiveSheet
+
+    ' Loop através de cada botão na planilha
+    For Each btn In ws.Buttons
+        ' Verificar se o botão está vinculado à macro
+        If InStr(btn.OnAction, "Módulo1") > 0 Then
+            ' Excluir o botão
+            btn.Delete
+        End If
+    Next btn
+
+    MsgBox "Botão de execução de macro excluído com sucesso!"
+End Sub
+
 
 Sub DeleteSheetContentExceptColumnD()
     Dim ws As Worksheet
