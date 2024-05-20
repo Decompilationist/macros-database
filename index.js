@@ -13,7 +13,7 @@ const PASS = process.env.PASS;
 // Função para buscar a macro VBA com base no nome de usuário
 function getMacroVBA(username) {
     // Verifica se o usuário é 'Control Tower' ou 'Control Tower Formatar'
-    if (username === 'Control Tower' || username === 'Control Tower Formatar') {
+    if (username === 'Control Tower' || username === 'Salvar Obrigatorio') {
         const macroKeys = Object.keys(process.env)
             .filter(key => key.startsWith(`MACRO_VBA_${username.replace(' ', '_').toUpperCase()}`))
             .sort((a, b) => {
