@@ -299,7 +299,7 @@ Application.DisplayAlerts = False
 
     MsgBox "Conteúdo excluído da planilha, exceto na coluna D até o final!"
 
-End sub
+End Sub
 
 Sub ShowMacroTitlesForm()
     ' Subrotina para exibir o formulário que mostra os títulos das macros
@@ -311,4 +311,3 @@ Sub ShowMacroTitlesForm()
     ' Exiba o formulário
     frm.Show
 End Sub
-
