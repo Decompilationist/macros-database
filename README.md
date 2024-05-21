@@ -44,3 +44,21 @@ Este projeto é uma API em Node.js utilizando Express, que fornece acesso a macr
 
    ```bash
    npm start
+
+
+## 🔌 Endpoints
+
+### `GET /`
+
+Retorna a página inicial.
+
+### `GET /macro`
+
+Autenticação necessária: **Sim** (Nome de usuário e senha)
+
+Retorna a macro VBA correspondente ao nome de usuário autenticado.
+
+#### Exemplo de requisição
+
+```bash
+curl -u Control\ Tower:sua_senha http://localhost:3000/macro
