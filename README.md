@@ -37,4 +37,10 @@ Este projeto é uma API em Node.js utilizando Express, que fornece acesso a macr
    End Sub
    MACRO_VBA_CONTROL_TOWER_2=Sub Macro2() ' código VBA aqui
    End Sub
-```
+   ```
+## 🚀 Uso
+
+1. Inicie o servidor:
+
+   ```bash
+   npm start
