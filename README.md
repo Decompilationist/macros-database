@@ -75,3 +75,45 @@ Retorna todos os títulos das macros VBA disponíveis no arquivo `.env`.
 ```bash
 curl -u :sua_senha http://localhost:3000/macros
 ```
+#### Exemplo de resposta
+
+```json
+[
+  "Macro1",
+  "Macro2"
+]
+```
+
+## 🛠️ Estrutura do Código
+
+### Dependências
+
+- `express`: Framework web para Node.js.
+- `basic-auth`: Middleware para autenticação básica HTTP.
+- `dotenv`: Carrega variáveis de ambiente de um arquivo `.env`.
+
+### Configuração do Servidor
+
+- Carrega as variáveis de ambiente do arquivo `.env`.
+- Configura a porta do servidor para `3000`.
+
+### Funções Principais
+
+- **`getMacroVBA(username)`**: Busca a macro VBA para um determinado nome de usuário.
+- **`getAllMacroTitles()`**: Retorna todos os títulos das macros VBA do arquivo `.env`.
+- **`authenticate(req, res, next)`**: Middleware para autenticação com nome de usuário e senha.
+- **`authenticateadmin(req, res, next)`**: Middleware para autenticação apenas com a senha.
+
+### Rotas
+
+- **`/macro`**: Protegida por `authenticate`, retorna a macro VBA do usuário autenticado.
+- **`/macros`**: Protegida por `authenticateadmin`, retorna os títulos das macros VBA.
+
+## 🤝 Contribuição
+
+Contribuições são bem-vindas! Por favor, envie um pull request ou abra uma issue para discutir mudanças.
+
+## 📄 Licença
+
+Este projeto está licenciado sob a [MIT License](LICENSE).
+```
