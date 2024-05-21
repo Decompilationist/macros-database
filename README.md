@@ -1,6 +1,6 @@
 # 📊 Macros Database API
 
-Este projeto é uma API em Node.js utilizando Express, que fornece acesso a macros VBA armazenadas em um arquivo `.env`. A autenticação básica é utilizada para proteger o acesso às macros.
+Este projeto é uma API em Node.js utilizando Express, que fornece acesso a macros VBA armazenadas em um arquivo/servidor `.env`. A autenticação básica é utilizada para proteger o acesso às macros.
 
 ## ✨ Funcionalidades
 
