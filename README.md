@@ -116,4 +116,3 @@ Contribuições são bem-vindas! Por favor, envie um pull request ou abra uma is
 ## 📄 Licença
 
 Este projeto está licenciado sob a [MIT License](LICENSE).
-```
