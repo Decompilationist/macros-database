@@ -21,3 +21,20 @@ Este projeto é uma API em Node.js utilizando Express, que fornece acesso a macr
    ```bash
    git clone https://github.com/seu-usuario/macros-database.git
    cd macros-database
+   ```
+
+2. Instale as dependências:
+
+   ```bash
+   npm install
+   ```
+
+3. Crie um arquivo .env na raiz do projeto com o seguinte formato:
+
+   ```bash
+   PASS=sua_senha
+   MACRO_VBA_CONTROL_TOWER_1=Sub Macro1() ' código VBA aqui
+   End Sub
+   MACRO_VBA_CONTROL_TOWER_2=Sub Macro2() ' código VBA aqui
+   End Sub
+```
