@@ -58,6 +58,12 @@ Autenticação necessária: **Sim** (Nome de usuário e senha)
 
 Retorna a macro VBA correspondente ao nome de usuário autenticado.
 
+#### Exemplo de requisição
+
+```bash
+curl -u Control\ Tower:sua_senha http://localhost:3000/macro
+```
+
 ### `GET /macros`
 
 Autenticação necessária: **Sim** (Apenas senha)
@@ -68,10 +74,4 @@ Retorna todos os títulos das macros VBA disponíveis no arquivo `.env`.
 
 ```bash
 curl -u :sua_senha http://localhost:3000/macros
-```
-
-#### Exemplo de requisição
-
-```bash
-curl -u Control\ Tower:sua_senha http://localhost:3000/macro
 ```
